@@ -14,10 +14,10 @@ echo "remove nodeid:" $tmpnode
 etcdctl -u root:$5 member remove $tmpnode
 
 echo "----->add $2 $3"
-eval `etcdctl -u root:$5 member add $2 $3 | grep ETCD_INITIAL_CLUSTER`
+#eval `etcdctl -u root:$5 member add $2 $3 | grep ETCD_INITIAL_CLUSTER`
 export ETCD_INITIAL_CLUSTER_STATE=existing
 export ETCD_NAME=$2
 
 echo "----->start etcd"
 echo "ETCD_INITIAL_CLUSTER:" $ETCD_INITIAL_CLUSTER
-etcd -initial-cluster etcd1=sb-etcd-test-etcd1:2380 etcd2=sb-etcd-test-etcd2:2380 etcd3=sb-etcd-test-etcd3:2380 -initial-cluster-token $4 -initial-advertise-peer-urls $3 -listen-peer-urls http://0.0.0.0:2380 -listen-client-urls http://0.0.0.0:2379 -advertise-client-urls $1 
+etcd -initial-cluster sb-etcd-test-etcd1=http://sb-etcd-test-etcd1:2380,sb-etcd-test-etcd2=http://sb-etcd-test-etcd2:2380,etcd3=http://sb-etcd-test-etcd3:2380 -initial-cluster-token $4 -initial-advertise-peer-urls $3 -listen-peer-urls http://0.0.0.0:2380 -listen-client-urls http://0.0.0.0:2379 -advertise-client-urls $1 
